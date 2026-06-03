@@ -4,11 +4,13 @@ spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=DistribucionDB;encrypt=false;trustServerCertificate=true
     username: sa
-    password: sa_password_change_me
+    password: MiPassword123!
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     open-in-view: false
     properties:
       hibernate:
@@ -25,3 +27,13 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+    com.pruebatecnica: debug
+    org.springframework.web: debug
+
+app:
+  security:
+    jwt:
+      secret: clave-super-secreta-de-al-menos-32-caracteres-para-jwt-hs256
+      issuer: distribucion-api
+      access-token-ttl: 60m
+      refresh-token-ttl: 7d

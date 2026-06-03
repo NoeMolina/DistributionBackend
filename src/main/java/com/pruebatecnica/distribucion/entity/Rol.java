@@ -34,6 +34,12 @@ public class Rol {
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
+    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    private String usuarioCreacion;
+
+    @Column(name = "usuario_modificacion", length = 100)
+    private String usuarioModificacion;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

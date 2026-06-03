@@ -1,5 +1,7 @@
 package com.pruebatecnica.distribucion.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -9,8 +11,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.CascadeType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,11 +44,20 @@ public class Articulo {
     @Column(name = "activo", nullable = false)
     private Boolean activo = Boolean.TRUE;
 
+    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    private String usuarioCreacion;
+
+    @Column(name = "usuario_modificacion", length = 100)
+    private String usuarioModificacion;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "articulo", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<PedidoDistribucion> pedidosDistribucion = new ArrayList<>();
 
     @PrePersist
     void onCreate() {

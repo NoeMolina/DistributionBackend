@@ -8,4 +8,5 @@ import com.pruebatecnica.distribucion.entity.RefreshToken;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     Optional<RefreshToken> findByTokenHash(String tokenHash);
+    Optional<RefreshToken> findByTokenHashAndRevocadoFalse(String tokenHash);
 }

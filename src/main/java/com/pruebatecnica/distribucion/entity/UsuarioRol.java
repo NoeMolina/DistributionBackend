@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.FetchType;
 import lombok.Getter;
@@ -38,14 +39,30 @@ public class UsuarioRol {
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
 
+    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    private String usuarioCreacion;
+
+    @Column(name = "usuario_modificacion", length = 100)
+    private String usuarioModificacion;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     @PrePersist
     void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
         if (createdAt == null) {
-            createdAt = LocalDateTime.now();
+            createdAt = now;
         }
+        updatedAt = now;
+    }
+
+    @PreUpdate
+    void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     @Embeddable

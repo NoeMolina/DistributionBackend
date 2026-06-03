@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,16 +40,32 @@ public class RefreshToken {
     @Column(name = "revocado", nullable = false)
     private Boolean revocado = Boolean.FALSE;
 
+    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    private String usuarioCreacion;
+
+    @Column(name = "usuario_modificacion", length = 100)
+    private String usuarioModificacion;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     @PrePersist
     void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
         if (createdAt == null) {
-            createdAt = LocalDateTime.now();
+            createdAt = now;
         }
+        updatedAt = now;
         if (revocado == null) {
             revocado = Boolean.FALSE;
         }
+    }
+
+    @PreUpdate
+    void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }
