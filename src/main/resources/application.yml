@@ -35,5 +35,5 @@ app:
     jwt:
       secret: clave-super-secreta-de-al-menos-32-caracteres-para-jwt-hs256
       issuer: distribucion-api
-      access-token-ttl: 60m
+      access-token-ttl: 24h
       refresh-token-ttl: 7d

@@ -24,7 +24,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "PedidosDistribucion", uniqueConstraints = {
-    @UniqueConstraint(name = "UQ_Pedido_NaturalKey", columnNames = {"articulo_id", "tienda_id", "fecha_distribucion"})
+        @UniqueConstraint(name = "UQ_Pedido_NaturalKey", columnNames = { "articulo_id", "tienda_id",
+                "fecha_distribucion" })
 })
 public class PedidoDistribucion {
 
@@ -61,6 +62,9 @@ public class PedidoDistribucion {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = Boolean.TRUE;
+
     @PrePersist
     void onCreate() {
         LocalDateTime now = LocalDateTime.now();
@@ -69,6 +73,8 @@ public class PedidoDistribucion {
         if (estatus == null) {
             estatus = "PENDIENTE";
         }
+        if (activo == null)
+            activo = Boolean.TRUE;
     }
 
     @PreUpdate

@@ -11,6 +11,7 @@ public record PedidoDistribucionResumenResponse(
     LocalDate fechaDistribucion,
     Integer cantidadPiezas,
     String estatus,
+    Boolean activo,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {}

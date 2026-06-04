@@ -49,7 +49,7 @@ public class ArticuloService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Articulo no encontrado"));
 
         List<PedidoDistribucionResumenResponse> pedidos = pedidoDistribucionRepository
-                .findByArticuloId(id)
+                .findByArticuloIdAndActivoTrue(id)
                 .stream()
                 .map(this::toPedidoResumenResponse)
                 .toList();
@@ -106,9 +106,10 @@ public class ArticuloService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El articulo ya fue eliminado");
         }
 
-        List<PedidoDistribucion> pedidos = pedidoDistribucionRepository.findByArticuloId(id);
+        List<PedidoDistribucion> pedidos = pedidoDistribucionRepository.findByArticuloIdAndActivoTrue(id);
         pedidos.forEach(pedido -> {
             if ("PENDIENTE".equals(pedido.getEstatus())) {
+                pedido.setActivo(false);
                 pedido.setEstatus("CANCELADO");
                 pedido.setUsuarioModificacion(SYSTEM_USER);
             }
@@ -167,6 +168,7 @@ public class ArticuloService {
                 pedido.getFechaDistribucion(),
                 pedido.getCantidadPiezas(),
                 pedido.getEstatus(),
+                pedido.getActivo(),
                 pedido.getCreatedAt(),
                 pedido.getUpdatedAt());
     }
